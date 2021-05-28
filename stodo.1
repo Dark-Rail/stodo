@@ -1,0 +1,268 @@
+.Dd Mar 14, 2021
+.Dt stodo 1
+.Os
+.Sh NAME
+.Nm stodo
+.Nd a simple todo list script written in sh.
+.Sh DESCRIPTION
+.Bl -tag -width indent
+.It Fl a Ar Name Date /path/file/todo.
+Add a task/todo to the
+.Ar /path/to/file.
+.Pp
+the Date syntax is: yy-mm-dd/hh:mm
+.Pp
+.It Fl A
+using ask mode, when one task/todo reached to the their time;script will ask 'go to the next task? '.
+.Pp
+.Pp
+.It Fl d Ar /path/to/file
+Delete your task/todo from
+.Ar /path/to/file
+.Pp
+.It Fl D Ar /path/to/file
+Delete DONE word from end of lines of
+.Ar /path/to/file
+.Pp
+.It Fl e Ar /path/to/file
+add, edit, move, replace, remove, sort  todos/tasks
+.Pp
+.It Fl E
+.
+Show all occured errors.
+.Pp
+.It Fl f Ar /path/to/file
+Read task/todo from
+.Ar /path/to/file
+.Pp
+.It Fl F Ar /path/to/file.wav
+Play
+.Ar /path/to/file.wav
+file when task/todo reached.
+.Pp
+.It Fl l Ar /path/to/file
+show DONE or undone tasks/todos from
+.Ar /path/to/file
+.Pp
+.It Fl m Ar /path/to/todo Ar down/up
+move up/down todos/tasks from
+.Ar /path/to/todo
+file.
+.Pp
+.It Fl q
+Enable quiet mode, if
+.Ar -q
+flag used; script does not show outputs of their works.
+.Pp
+.It Fl s Ar /path/to/todo
+sort todo list by number lines.
+.pp
+.It Fl t Ar number
+.
+play
+.Ar X
+times the
+.Ar /path/to/file.wav
+files, when task/todo reached.
+.Pp
+.El
+.Sh EXAMPLES
+.Pp
+for adding one or
+.Ar X
+tasks/todos,  run this command:
+.It
+  $
+.Cm sh stodo.sh -a Bash 2021-03-14/23:43 ~/todo
+.It
+  $
+.Cm sh stodo.sh -a Game 2021-03-15/09:15 ~/todo
+.Pp
+the contents of
+.Ar ~/todo
+file will be:
+.It
+.Bl -bullet -compact
+.
+.It
+.Cm 1. Bash 2021-03-14/23:43
+.
+.It
+.Cm 2. Game 2021-03-15/09:15
+.El
+.Pp
+for running the script, run this command:
+.It
+  $
+.Cm sh stodo.sh -f ~/todo -F ~/Alert.wav -t 2
+.Pp
+we can use
+.Ar -q
+flag here to:
+.It
+  $
+.Cm sh stodo.sh -q -f ~/stodo -F ~/Alert.wav -t 2
+.Pp
+for see done tasks or  undone tasks,  run:
+.It
+  $
+.Cm sh stodo.sh -l ~/stodo
+.Pp
+the output will be:
+.Bl -bullet -compact
+.
+.It
+.Cm Is Done: DONE  -- TODO Name: Bash
+.
+.It
+.Cm Is Done: no -- TODO Name: Game
+.Pp
+.El
+for deleting a task/todo, run:
+.It
+  $
+.Cm sh stodo.sh -d ~/todo
+.Pp
+the output will be:
+.Bl -bullet -compact
+.
+.It
+.Cm 1. Bash 2021-03-14/23:43
+.
+.It
+.Cm 2. Game 2021-03-15/09:15
+.Pp
+.El
+.Cm Enter Line number:
+.Pp
+if we give
+.Ar 2
+as input, the second line of
+.Ar ~/todo
+will be deleted.
+.Pp
+for deleted DONE words from
+.Ar ~/todo file, run:
+.It
+$
+.Cm sh stodo.sh -D ~/todo
+.Pp
+for examples if
+.Ar ~/todo
+file content is:
+.Pp
+.Bl -bullet -compact
+.
+.It
+.Cm 1. Bash 2021-03-14/23:43 DONE
+.
+.It
+.Cm 2. Game 2021-03-15/09:15 DONE
+.Pp
+.El
+.Pp
+after running command the output will be:
+.Bl -bullet -compact
+.
+.It
+.Cm 1. Bash 2021-03-14/23:43
+.
+.It
+.Cm 2. Game 2021-03-15/09:15
+.Pp
+.El
+.Pp
+for sorting:
+.It
+$
+.Cm sh stodo.sh -s ~/todo
+.Pp
+for example ~/todo file content is:
+.Bl -bullet -compact
+.It
+.Cm 2. Game 2021-03-15/10:15
+.
+.It
+.Cm 1. Bash 2021-03-15:10:30
+.El
+.Pp
+after running above command(sorting commnad) output will be:
+.Bl -bullet -compact
+.It
+.Cm 1. Game 2021-03-15/10:15
+.
+.It
+.Cm 2. Bash 2021-03-15:10:30
+.
+.El
+.Pp
+for moving todos/tasks:
+.It
+  $
+.Cm sh stodo.sh -m ~/todo up
+.Pp
+for example ~/todo file content is:
+.Bl -bullet -compact
+.
+.It
+.Cm 1. Game 2021-03-15/10:15
+.
+.It
+.Cm 2. Bash 2021-03-15/11:15
+.It
+.Cm 3. Sleep 2021-03-15/15:14
+.El
+after running above command, output will be:
+.Bl -bullet -compact
+.It
+.Cm Enter First Number:
+.It
+.Cm Enter Second Number:
+.El
+.Pp
+if we give 3 as input for first number, and 2 for second number; will happen:
+.It
+.Cm 1. Game 2021-03-15/10:15
+.It
+.Cm 3. Sleep 2021-03-15/15:14
+.It
+.Cm 2. Bash 2021-03-15/11:15
+.It
+third line moved 2 lines up.
+.Pp
+.Cm 1. Game 2021-03-15/10:15
+.It
+.Cm 3. Sleep 2021-03-15/15:14 Ar +2
+.It
+.Cm 2. Bash 2021-03-15/11:15 Ar +1
+.Pp
+an other example for
+.Ar -m
+flag:
+.It
+$
+.Cm sh stodo.sh -m ~/todo down
+.It
+after running above commnad output will be:
+.Bl -bullet -compact
+.It
+.Cm 1. Game 2021-03-15/10:15
+.It
+.Cm 3. Sleep 2021-03-15/15:14
+.It
+.Cm 2. Bash 2021-03-15/11:15
+.Pp
+.It
+.Cm Enter First Number:
+.It
+.Cm Enter Second Number:
+.El
+if we give 2 as input for first number, and 3 for second number; will happen:
+.It
+.Cm 1. Game 2021-03-15/10:15
+.It
+.Cm 2. Bash 2021-03-15/11:15 Ar +2
+.It
+.Cm 3. Sleep 2021-03-15/15:14 Ar +3
+.It
+.Pp
