@@ -1,10 +1,12 @@
-#!/bin/sh 
+#!/bin/sh
+
 # vim: foldmethod=marker
 
 # Important and global variables {{{
 
 SLEEP_TIME=2
 ERRORS_FILE="/tmp/stodo_Errors.log"
+
 # }}}
 
 #COLORS {{{
@@ -161,19 +163,25 @@ ADD_TODO(){
 LIST_TODO(){
 	IFS=$'\n'
 	COUNTER=1;
+
 	for _ in $(seq 1 $(wc -l "$FILE_FOR_LIST" 2>&- | awk '{print $1}')  )  ;do
 		TODO_NAME=$(awk -v VAR1=${COUNTER} 'NR==VAR1 {print $2}' "$FILE_FOR_LIST")
 		IS_DONE_CHECK=$(awk -v VAR2=${COUNTER} 'NR==VAR2 {print $4}' "$FILE_FOR_LIST")
+
 		if [ -n "$IS_DONE_CHECK" ];then
 			let COUNTER+=1 > /dev/null
 			printf "${CYAN}%s: ${GREEN}%s${END} -- " "Is Done" "${IS_DONE_CHECK}"
 			printf "${CYAN}%s: ${GREEN} %s${END}\n" "Todo Name" "${TODO_NAME}"
 			continue
+
 		else
 			printf "${CYAN}%s: ${END}${RED}%s${END}" "Is Done" "no"
 			printf " -- ${CYAN}%s: ${END}${GREEN}%s${END}\n" "Todo Name" "${TODO_NAME}"
+
 		fi
+
 		let COUNTER+=1 > /dev/null
+
 	done
 	exit 0
 }
@@ -577,7 +585,8 @@ while [ true ];do
 			;;
 		'-l')
 			FILE_FOR_LIST="$2"
-			test -z "$FILE_FOR_LIST" && exit 1;
+			FILE_FOR_LIST2="$(\cat $2)"
+			test -z "$FILE_FOR_LIST2" && { \cat /dev/null > "${FILE_FOR_LIST}" && exit 1 ; }
 			HOME_PATH="/home/$(logname)/"
 			TEMP_STATUS=$(printf "$FILE_FOR_LIST" | grep -iE "^\~")
 			if [ "$?" == 0 ];then

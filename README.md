@@ -20,6 +20,11 @@ $ sudo sh setup.sh
 ```
 $ man stodo
 ```
+### Uninstallation
+```
+$ cd stodo
+$ sudo sh uninstall.sh
+```
 
 ### Screenshots
 ![First](Screenshots/1.png)
