@@ -1,5 +1,5 @@
 #!/bin/sh
-UID_TEMP=`id -u $USER`
+UID_TEMP=$(id -u)
 if [ "$UID_TEMP" == 0 ];then
 	if [ ! -e /usr/local/man/man1/ ];then
 		mkdir -v /usr/local/man/man1/
